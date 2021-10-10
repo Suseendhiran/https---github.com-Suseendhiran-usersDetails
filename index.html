@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="styleSheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Enter Details</h1>
+      <form name="userData" class="details" id="form">
+        <div class="info">
+          <div>
+            <label for="fname">First name:</label>
+            <input id="fname" type="text" required />
+          </div>
+          <div>
+            <label for="lname">Last name:</label>
+            <input id="lname" type="text" required />
+          </div>
+          <div>
+            <label for="address">Address:</label>
+            <input id="address" type="text" required />
+          </div>
+          <div>
+            <label for="pincode">Pincode:</label>
+            <input
+              id="pincode"
+              required
+              pattern="[0-9]{6,6}$"
+              title="Enter only numbers"
+            />
+          </div>
+          <div>
+            <label for="gender">Gender:</label>
+            <div class="inputsContainer">
+              <input
+                id="gender"
+                type="radio"
+                name="gender"
+                value="male"
+                required
+              />Male
+              <input
+                id="gender"
+                type="radio"
+                name="gender"
+                value="female"
+                required
+              />Female
+            </div>
+          </div>
+          <div>
+            <label for="foods">Choice of Food:</label>
+            <div class="foodsConatiner">
+              <div class="foodContainer">
+                <input
+                  class="food"
+                  type="checkbox"
+                  id="biryani"
+                  value="biryani"
+                  name="food"
+                />
+                <label for="biryani">Biryani</label>
+              </div>
+              <div class="foodContainer">
+                <input
+                  class="food"
+                  type="checkbox"
+                  id="curdRice"
+                  value="curdRice"
+                  name="food"
+                />
+                <label for="curdRice">curd rice</label>
+              </div>
+              <div class="foodContainer">
+                <input
+                  class="food"
+                  type="checkbox"
+                  id="dosa"
+                  value="dosa"
+                  name="food"
+                />
+                <label for="dosa">Dosa</label>
+              </div>
+              <div class="foodContainer">
+                <input
+                  class="food"
+                  type="checkbox"
+                  id="idly"
+                  value="idly"
+                  name="food"
+                />
+                <label for="idly">Idly</label>
+              </div>
+              <div class="foodContainer">
+                <input
+                  class="food"
+                  type="checkbox"
+                  id="pizza"
+                  value="pizza"
+                  name="food"
+                />
+                <label for="pizza">Pizza</label>
+              </div>
+            </div>
+          </div>
+          <div id="buttonContainer">
+            <button type="submit">Submit form</button>
+            <!-- <button>Cancel</button> -->
+          </div>
+        </div>
+      </form>
+    </div>
+    <table class="tableContainer">
+      <tbody id="tableBody">
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>Pincode</th>
+          <th>Fav Foods</th>
+        </tr>
+      </tbody>
+    </table>
+    <script>
+      const form = document.getElementById("form");
+      form.addEventListener("submit", validateForm, false);
+      var usersDetails = [];
+      function validateForm(event) {
+        let firstName = document.forms["userData"]["fname"].value;
+        let lastName = document.forms["userData"]["lname"].value;
+        let gender = document.forms["userData"]["gender"].value;
+        let address = document.forms["userData"]["address"].value;
+        let pincode = document.forms["userData"]["pincode"].value;
+        let checkboxes = document.getElementsByClassName("food");
+        let foods = [];
+        for (let i = 0; i < checkboxes.length; i++) {
+          console.log(checkboxes[i].checked, checkboxes[i].value);
+          if (checkboxes[i].checked) foods.push(checkboxes[i].value);
+        }
+        let userData = {
+          firstName,
+          lastName,
+          address,
+          gender,
+          pincode,
+          foods,
+        };
+
+        usersDetails.push(userData);
+        let tableContainer = document.getElementById("tableBody");
+
+        let keys = Object.keys(userData);
+        let rowNode = document.createElement("tr");
+        console.log(keys);
+        keys.forEach((key) => {
+          let node = document.createElement("td");
+          console.log(userData[key]);
+          let textNode = document.createTextNode(userData[key]);
+          node.appendChild(textNode);
+          rowNode.appendChild(node);
+        });
+        console.log("foodslength", foods.length);
+        if (foods.length >= 2) {
+          tableContainer.appendChild(rowNode);
+          document.getElementById("form").reset();
+        } else {
+          alert("Should choose min 2 food items");
+        }
+
+        // let tableData = usersDetails.map((item) => {
+        //   let keys = Object.keys(item);
+        //   return keys.map((key) => `<td>${item[key]}</td>`);
+        // });
+        // let tableContainer =
+        //   document.getElementsByClassName("tableContainer")[0];
+        // tableContainer.appendChild("<t><td>ss</td></tr>");
+        // tableData.forEach((item) => {
+        //   let currRow = `<tr>${item.join("")}</tr>`;
+
+        //tableContainer.appendChild(currRow);
+        // });
+
+        //console.log(tableRowData);
+
+        event.preventDefault();
+      }
+    </script>
+  </body>
+</html>
